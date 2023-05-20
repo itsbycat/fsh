@@ -30,17 +30,17 @@ function findMissingElements(objA, objB, result = {}) {
     for (let key in objA) {
         if (!objB.hasOwnProperty(key)) {
             result[key] = objA[key]
-    } else if (typeof objA[key] === 'object' && typeof objB[key] === 'object') {
-        const nestedResult = findMissingElements(objA[key], objB[key])
-        if (Object.keys(nestedResult).length > 0) {
-            result[key] = nestedResult
+        } else if (typeof objA[key] === 'object' && typeof objB[key] === 'object') {
+            const nestedResult = findMissingElements(objA[key], objB[key])
+            if (Object.keys(nestedResult).length > 0) {
+                result[key] = nestedResult
+            }
+        } else if (Array.isArray(objA[key]) && Array.isArray(objB[key])) {
+            const diffArray = objA[key].filter(item => !objB[key].includes(item))
+            if (diffArray.length > 0) {
+                result[key] = diffArray
+            }
         }
-    } else if (Array.isArray(objA[key]) && Array.isArray(objB[key])) {
-        const diffArray = objA[key].filter(item => !objB[key].includes(item))
-        if (diffArray.length > 0) {
-            result[key] = diffArray
-        }
-    }
     }
     return result
 }
