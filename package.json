@@ -1,0 +1,29 @@
+{
+  "name": "fsh",
+  "version": "1.5.1",
+  "description": "Folder sync helper",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "folder",
+    "sync",
+    "helper"
+  ],
+  "author": "bycat",
+  "license": "MIT",
+  "dependencies": {
+    "fs": "^0.0.1-security"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsbycat/fsh.git"
+  },
+  "bugs": {
+    "url": "https://github.com/itsbycat/fsh/issues"
+  },
+  "homepage": "https://github.com/itsbycat/fsh#readme"
+}
