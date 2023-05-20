@@ -1,5 +1,5 @@
-# fsh
-Folder Sync Helper
+## Folder Sync Helper
+find out for you which folders/files are missing from your backups
 
 ## usage:
 1. Change locations
