@@ -8,3 +8,5 @@ Folder Sync Helper
 2. Run (2 method)
   - npm start
   - node index.js
+3. Output
+  - ./output.txt
