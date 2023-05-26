@@ -1,8 +1,44 @@
 const fs = require("fs")
+const path = require("path")
 
 const locations = {
     from: "D:\\Anime", // main target
     to: "G:\\My Drive\\Uploads" // target
+}
+
+async function getFS(folderPath) {
+    let totalSize = 0;
+  
+    function traverseDirectory(directory) {
+        const files = fs.readdirSync(directory)
+  
+        files.forEach(file => {
+            const filePath = path.join(directory, file)
+            const stats = fs.statSync(filePath)
+  
+            if (stats.isFile()) {
+                totalSize += stats.size
+            } else if (stats.isDirectory()) {
+                traverseDirectory(filePath)
+            }
+        })
+    }
+  
+    traverseDirectory(folderPath)
+  
+    return totalSize
+}
+
+function formatBytes(bytes, decimals = 2) {
+    if (!+bytes) return '0 Bytes'
+
+    const k = 1024
+    const dm = decimals < 0 ? 0 : decimals
+    const sizes = ['Byte', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
 }
 
 function readDir(dir) {
@@ -21,7 +57,7 @@ async function buildFT(dir) {
         const filePath = `${dir}/${file}`
         const stats = fs.lstatSync(filePath)
         if (stats.isDirectory()) { ret[file] = await buildFT(filePath) }
-        else { ret[file] = stats.size }
+        else { ret[file] = formatBytes(stats.size) }
     }
     return ret
 }
@@ -53,6 +89,17 @@ async function main() {
     fs.writeFileSync("./to.txt", JSON.stringify(to, null, 2))
     fs.writeFileSync("./output.txt", JSON.stringify(output, null, 2))
 
-    console.log(`[ ${Object.keys(to).length} / ${Object.keys(from).length} ] ${Object.keys(output).length} ==> ${Object.keys(from).length - Object.keys(to).length}`)
+    const from_size = await getFS(locations.from)
+    const to_size = await getFS(locations.to)
+    const output_size = await formatBytes(from_size - to_size)
+
+    const logtext = `
+    [ ${Object.keys(to).length} / ${Object.keys(from).length} ] ${Object.keys(output).length} ==> ${Object.keys(from).length - Object.keys(to).length} file left
+
+    [ ${formatBytes(to_size)} / ${formatBytes(from_size)} ] ${output_size} left`
+
+    fs.writeFileSync("./log.txt", logtext)
+
+    console.log(logtext)
 }
 main()

@@ -1,6 +1,6 @@
 {
   "name": "fsh",
-  "version": "1.5.1",
+  "version": "1.5.5",
   "description": "Folder sync helper",
   "main": "index.js",
   "scripts": {
@@ -15,9 +15,9 @@
   "author": "bycat",
   "license": "MIT",
   "dependencies": {
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/itsbycat/fsh.git"
